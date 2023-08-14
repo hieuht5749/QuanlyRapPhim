@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import model.Movies;
 import connectDb.DBHelper;
 import java.sql.Date;
+import java.util.Arrays;
 
 /**
  *
@@ -37,7 +38,9 @@ public class MoviesDAO {
                 mv.setTenPhim(rs.getString("TEN_PHIM"));
                 mv.setDaoDien(rs.getString("DAO_DIEN"));
                 mv.setGiaPhim(rs.getString("GIA_PHIM"));
-                mv.setTheLoai(rs.getString("THE_LOAI"));
+                String theLoaiString = rs.getString("THE_LOAI");
+                ArrayList<String> theLoaiList = new ArrayList<>(Arrays.asList(theLoaiString.split(", ")));
+                mv.setTheLoai(theLoaiList);
                 mv.setThoiLuong(rs.getInt("THOI_LUONG"));
                 mv.setNgPhatHanh(rs.getDate("NG_PHAT_HANH"));
                 mv.setBackround(rs.getString("BACKGROUGD"));
@@ -56,17 +59,17 @@ public class MoviesDAO {
         try {
             Connection con = DBHelper.getConnectionDB();
 
-            String sql = "INSERT INTO QLRP VALUES(?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO PHIM VALUES(?,?,?,?,?,?,?,?)";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, movies.getMaPhim());
             statement.setString(2, movies.getTenPhim());
             statement.setString(3, movies.getDaoDien());
             statement.setString(4, movies.getGiaPhim());
-            statement.setString(5, movies.getTheLoai());
+            String theLoaiString = String.join(", ", movies.getTheLoai());
+            statement.setString(5, theLoaiString);
             statement.setInt(6, movies.getThoiLuong());
-         statement.setDate(7, (Date) movies.getNgPhatHanh());
+            statement.setDate(7, (Date) movies.getNgPhatHanh());
             statement.setString(8, movies.getBackround());
-
             rs = statement.executeUpdate();
 
         } catch (Exception ex) {
@@ -74,39 +77,41 @@ public class MoviesDAO {
         }
         return rs;
     }
-//    public static int update(Connection con, Students student){
-//        try{
-//            int rs = 0;
-//            String sql = "UPDATE STUDENTS SET HOTEN=?, EMAIL =?, SODT=?,GIOITINH=?,DIACHI=? WHERE MASV=?";
-//            PreparedStatement statement = con.prepareStatement(sql);
-//            
-//            statement.setString(1, student.getHoTen());
-//            statement.setString(2, student.getEmail());
-//            statement.setString(3, student.getSoDT());
-//            statement.setInt(4, student.getGioiTinh());
-//            statement.setString(5, student.getDiaChi());
-//            statement.setString(6, student.getMaSV());
-//            rs = statement.executeUpdate();
-//            return rs;
-//        }catch(Exception ex){
-//            
-//        }
-//        return 0;
-//    }
+
+    public static int update(Movies movies) {
+        int rs = 0;
+        try {
+            Connection con = DBHelper.getConnectionDB();
+            String sql = "UPDATE PHIM SET TEN_PHIM =?, DAO_DIEN=?,GIA_PHIM=?,THE_LOAI=?,THOI_LUONG =?, NG_PHAT_HANH=?, BACKGROUGD =? WHERE MA_PHIM=?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, movies.getTenPhim());
+            statement.setString(2, movies.getDaoDien());
+            statement.setString(3, movies.getGiaPhim());
+            String theLoaiString = String.join(", ", movies.getTheLoai());
+            statement.setString(4, theLoaiString);
+            statement.setInt(5, movies.getThoiLuong());
+            statement.setDate(6, (Date) movies.getNgPhatHanh());
+            statement.setString(7, movies.getBackround());
+            statement.setString(8, movies.getMaPhim());
+            rs = statement.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return rs;
+    }
 //    
-//    public static int delet(Connection con, Students student){
-//        try{
-//            int rs = 0;
-//            String sql = "delete from STUDENTS WHERE MASV=?";
-//            PreparedStatement statement = con.prepareStatement(sql);
-//            
-//            
-//            statement.setString(1, student.getMaSV());
-//            rs = statement.executeUpdate();
-//            return rs;
-//        }catch(Exception ex){
-//            
-//        }
-//        return 0;
-//    }
+
+    public static int delet(Movies movies) {
+        int rs = 0;
+        try {
+            Connection con = DBHelper.getConnectionDB();
+            String sql = "delete from PHIM WHERE MA_PHIM=?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, movies.getMaPhim());
+            rs = statement.executeUpdate();
+        } catch (Exception ex) {
+
+        }
+        return rs;
+    }
 }

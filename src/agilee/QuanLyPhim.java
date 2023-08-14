@@ -7,11 +7,16 @@ package agilee;
 //import java.awt.BorderLayout;
 import DAO.MoviesDAO;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Movies;
@@ -32,6 +37,7 @@ import model.Movies;
 public class QuanLyPhim extends javax.swing.JFrame {
 
     List<Movies> list = new ArrayList<>();
+    String strHinhAnh = "";
 
     /**
      * Creates new form Login
@@ -80,6 +86,7 @@ public class QuanLyPhim extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        lblPost = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         cboHanhDong = new javax.swing.JCheckBox();
         cboPhieuLuu = new javax.swing.JCheckBox();
@@ -118,6 +125,9 @@ public class QuanLyPhim extends javax.swing.JFrame {
         btnVe.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/390134.png"))); // NOI18N
         btnVe.setText("VÉ");
         btnVe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnVeMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnVeMouseEntered(evt);
             }
@@ -132,6 +142,9 @@ public class QuanLyPhim extends javax.swing.JFrame {
         btnPhong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/phong.png"))); // NOI18N
         btnPhong.setText("PHÒNG");
         btnPhong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPhongMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnPhongMouseEntered(evt);
             }
@@ -146,6 +159,9 @@ public class QuanLyPhim extends javax.swing.JFrame {
         btnThietbi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/thietbi.png"))); // NOI18N
         btnThietbi.setText("THIẾT BỊ");
         btnThietbi.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnThietbiMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnThietbiMouseEntered(evt);
             }
@@ -179,6 +195,9 @@ public class QuanLyPhim extends javax.swing.JFrame {
         btnKhachhang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/khach.png"))); // NOI18N
         btnKhachhang.setText("KHÁCH HÀNG");
         btnKhachhang.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnKhachhangMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 btnKhachhangMouseEntered(evt);
             }
@@ -271,12 +290,15 @@ public class QuanLyPhim extends javax.swing.JFrame {
         getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 63, -1));
 
         txtMa.setBackground(new java.awt.Color(0, 153, 0));
+        txtMa.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(txtMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 60, 140, -1));
 
         txtTen.setBackground(new java.awt.Color(0, 153, 0));
+        txtTen.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(txtTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 140, -1));
 
         txtDaoDien.setBackground(new java.awt.Color(0, 153, 0));
+        txtDaoDien.setForeground(new java.awt.Color(255, 255, 255));
         txtDaoDien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtDaoDienActionPerformed(evt);
@@ -297,15 +319,21 @@ public class QuanLyPhim extends javax.swing.JFrame {
         jPanel4.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel4.setPreferredSize(new java.awt.Dimension(90, 160));
 
+        lblPost.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblPostMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(lblPost, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addComponent(lblPost, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(841, 50, 180, 220));
@@ -316,18 +344,18 @@ public class QuanLyPhim extends javax.swing.JFrame {
 
         cboHanhDong.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         cboHanhDong.setForeground(new java.awt.Color(102, 255, 102));
-        cboHanhDong.setText("Hành Động");
+        cboHanhDong.setText("Hanh Dong");
         cboHanhDong.setBorder(null);
         getContentPane().add(cboHanhDong, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 180, 85, -1));
 
         cboPhieuLuu.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         cboPhieuLuu.setForeground(new java.awt.Color(102, 255, 102));
-        cboPhieuLuu.setText("Phiêu Lưu");
+        cboPhieuLuu.setText("Phieu Luu");
         getContentPane().add(cboPhieuLuu, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 210, 85, -1));
 
         cboKinhDi.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         cboKinhDi.setForeground(new java.awt.Color(102, 255, 102));
-        cboKinhDi.setText("Kinh Dị");
+        cboKinhDi.setText("Kinh Di");
         getContentPane().add(cboKinhDi, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 240, 85, -1));
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 15)); // NOI18N
@@ -336,6 +364,7 @@ public class QuanLyPhim extends javax.swing.JFrame {
         getContentPane().add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 140, 37, -1));
 
         txtGiaPhim.setBackground(new java.awt.Color(0, 153, 0));
+        txtGiaPhim.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(txtGiaPhim, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 140, 140, -1));
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -344,33 +373,57 @@ public class QuanLyPhim extends javax.swing.JFrame {
 
         cboHocDuong.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         cboHocDuong.setForeground(new java.awt.Color(102, 255, 102));
-        cboHocDuong.setText("Học Đường");
+        cboHocDuong.setText("Hoc Duong");
         getContentPane().add(cboHocDuong, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 180, -1, -1));
 
         cboTinhCam.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         cboTinhCam.setForeground(new java.awt.Color(102, 255, 102));
-        cboTinhCam.setText("Tình Cảm");
+        cboTinhCam.setText("Tinh Cam");
         getContentPane().add(cboTinhCam, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 210, -1, -1));
 
         cboHoatHinh.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         cboHoatHinh.setForeground(new java.awt.Color(102, 255, 102));
-        cboHoatHinh.setText("Hoạt Hình");
+        cboHoatHinh.setText("Hoat Hinh");
         getContentPane().add(cboHoatHinh, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 240, -1, -1));
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(153, 204, 255));
-        jLabel12.setText("Tên Tài Khoản: ");
-        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 110, -1));
+        jLabel12.setText("Tên Tài Khoản: user1");
+        getContentPane().add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 150, -1));
 
         txtThoiLuong.setBackground(new java.awt.Color(0, 153, 0));
+        txtThoiLuong.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(txtThoiLuong, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 60, 140, -1));
 
         txtNgay.setBackground(new java.awt.Color(0, 153, 0));
+        txtNgay.setForeground(new java.awt.Color(255, 255, 255));
         getContentPane().add(txtNgay, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 100, 140, -1));
 
-        tblMovie.setBackground(new java.awt.Color(102, 0, 102));
+        tblMovie.setBackground(new java.awt.Color(204, 0, 204));
+        tblMovie.setForeground(new java.awt.Color(255, 255, 255));
         tblMovie.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
                 {null, null, null, null},
@@ -476,7 +529,7 @@ public class QuanLyPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_txtDaoDienActionPerformed
 
     private void btnNhanvienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhanvienActionPerformed
-        // TODO add your handling code here:
+        Nhanvien();
     }//GEN-LAST:event_btnNhanvienActionPerformed
 
     public void setColor(JButton p) {
@@ -565,11 +618,16 @@ public class QuanLyPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnKhachhangMouseExited
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        // TODO add your handling code here:
+
+        if (checkFromupdate() && checkMaNull() && checkMaKoTonTai() && checkTrungTenUpdate()) {
+            suaPhim();
+        }
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        // TODO add your handling code here:
+        if (checkMaNull() && checkMaKoTonTai()) {
+            xoaPhim();
+        }
 
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -604,13 +662,36 @@ public class QuanLyPhim extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDeleteMouseExited
 
     private void tblMovieMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblMovieMouseClicked
+
         int index = tblMovie.getSelectedRow();
         fillToFrom(index);
     }//GEN-LAST:event_tblMovieMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+        if (checkFrom() && checkTrungMa() && checkTrungTen()) {
+            insertPhim();
+        }
     }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnVeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnVeMouseClicked
+        Ve();
+    }//GEN-LAST:event_btnVeMouseClicked
+
+    private void btnPhongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPhongMouseClicked
+        Phong();
+    }//GEN-LAST:event_btnPhongMouseClicked
+
+    private void btnThietbiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThietbiMouseClicked
+        Thietbi();
+    }//GEN-LAST:event_btnThietbiMouseClicked
+
+    private void btnKhachhangMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnKhachhangMouseClicked
+        Khachhang();
+    }//GEN-LAST:event_btnKhachhangMouseClicked
+
+    private void lblPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblPostMouseClicked
+        uploadHinhAnh();
+    }//GEN-LAST:event_lblPostMouseClicked
 
     /**
      * @param args the command line arguments
@@ -678,6 +759,7 @@ public class QuanLyPhim extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblKenh;
+    private javax.swing.JLabel lblPost;
     private javax.swing.JTable tblMovie;
     private javax.swing.JTextField txtDaoDien;
     private javax.swing.JTextField txtGiaPhim;
@@ -695,46 +777,445 @@ public class QuanLyPhim extends javax.swing.JFrame {
         }
         tblMovie.setModel(model);
     }
-      public void fillToFrom(int index){
-    Movies movies = list.get(index);
-    txtMa.setText(movies.getMaPhim());
-    txtTen.setText(movies.getTenPhim());
-    txtDaoDien.setText(movies.getDaoDien());
-          if (movies.getTheLoai().equalsIgnoreCase("hoạt hình")) {
-              cboHoatHinh.setSelected(true);
-          } if (movies.getTheLoai().equalsIgnoreCase("hành động")) {
-              cboHanhDong.setSelected(true);
-          } if (movies.getTheLoai().equalsIgnoreCase("học đường")) {
-              cboHocDuong.setSelected(true);
-          } if (movies.getTheLoai().equalsIgnoreCase("tình cảm")) {
-              cboTinhCam.setSelected(true);
-          } if (movies.getTheLoai().equalsIgnoreCase("kinh dị")) {
-              cboKinhDi.setSelected(true);
-          } if (movies.getTheLoai().equalsIgnoreCase("phiêu lưu")) {
-              cboPhieuLuu.setSelected(true);
-          }
-          txtThoiLuong.setText(String.valueOf(movies.getThoiLuong()));
-          SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+
+    public void fillToFrom(int index) {
+        Movies movies = list.get(index);
+        txtMa.setText(movies.getMaPhim());
+        txtTen.setText(movies.getTenPhim());
+        txtDaoDien.setText(movies.getDaoDien());
+        cboHanhDong.setSelected(false);
+        cboHoatHinh.setSelected(false);
+        cboHocDuong.setSelected(false);
+        cboKinhDi.setSelected(false);
+        cboPhieuLuu.setSelected(false);
+        cboTinhCam.setSelected(false);
+        for (String theLoai : movies.getTheLoai()) {
+            if (theLoai.equalsIgnoreCase("Hoat Hinh")) {
+                cboHoatHinh.setSelected(true);
+            }
+            if (theLoai.equalsIgnoreCase("Hanh Dong")) {
+                cboHanhDong.setSelected(true);
+            }
+            if (theLoai.equalsIgnoreCase("Hoc Duong")) {
+                cboHocDuong.setSelected(true);
+            }
+            if (theLoai.equalsIgnoreCase("Tinh Cam")) {
+                cboTinhCam.setSelected(true);
+            }
+            if (theLoai.equalsIgnoreCase("Kinh Di")) {
+                cboKinhDi.setSelected(true);
+            }
+            if (theLoai.equalsIgnoreCase("Phieu luu")) {
+                cboPhieuLuu.setSelected(true);
+            }
+        }
+        txtThoiLuong.setText(String.valueOf(movies.getThoiLuong()));
+        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         String rDate = df.format(movies.getNgPhatHanh());
-          txtNgay.setText(rDate);
-          txtGiaPhim.setText(movies.getGiaPhim());
+        txtNgay.setText(rDate);
+        txtGiaPhim.setText(movies.getGiaPhim());
+        try {
+            lblPost.setText("");
+            ImageIcon imgIcon = new ImageIcon(getClass().getResource("/Icon/" + movies.getBackround().toString()));
+            Image img = imgIcon.getImage();
+            lblPost.setIcon(new ImageIcon(img.getScaledInstance(lblPost.getWidth(), lblPost.getHeight(), 0)));
+            strHinhAnh = movies.getBackround().toString();
+
+        } catch (Exception e) {
+            lblPost.setIcon(null);
+            lblPost.setText("no avata");
+        }
     }
-      public void insertPhim() {
+
+    public void insertPhim() {
         Movies movies = new Movies();
         movies.setMaPhim(txtMa.getText());
-        student.setAddress(txt_Address.getText());
-        student.setParentName(txt_PName.getText());
-        student.setPhone(txt_Phone.getText());
-        student.setStandar(cboStan.getSelectedItem().toString());
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        String rDate = df.format(new Date());
-        student.setRegDate(rDate);
-        int rs = StudentsDAO.insert(student);
+        movies.setTenPhim(txtTen.getText());
+        movies.setDaoDien(txtDaoDien.getText());
+        movies.setGiaPhim(txtGiaPhim.getText());
+        ArrayList<String> theLoai = new ArrayList();
+        if (cboHanhDong.isSelected()) {
+            theLoai.add("Hanh Dong");
+        }
+        if (cboHoatHinh.isSelected()) {
+            theLoai.add("Hoat Hinh");
+
+        }
+        if (cboHocDuong.isSelected()) {
+            theLoai.add("Hoc Duong");
+        }
+        if (cboKinhDi.isSelected()) {
+            theLoai.add("Kinh Di");
+        }
+        if (cboPhieuLuu.isSelected()) {
+            theLoai.add("Phieu luu");
+        }
+        if (cboTinhCam.isSelected()) {
+            theLoai.add("Tinh Cam");
+        }
+        movies.setTheLoai(theLoai);
+        movies.setThoiLuong(Integer.parseInt(txtThoiLuong.getText()));
+        movies.setNgPhatHanh(java.sql.Date.valueOf(txtNgay.getText()));
+        movies.setBackround(String.valueOf(strHinhAnh));
+        int rs = MoviesDAO.insert(movies);
+        loadDataToTable();
         if (rs > 0) {
             JOptionPane.showMessageDialog(null, "them thanh cong");
 
         } else {
             JOptionPane.showMessageDialog(null, "them that bai");
         }
+    }
+
+    public void suaPhim() {
+        String ma = txtMa.getText();
+        for (Movies movies : list) {
+            if (ma.equals(movies.getMaPhim())) {
+
+                movies.setTenPhim(txtTen.getText());
+                movies.setDaoDien(txtDaoDien.getText());
+                movies.setGiaPhim(txtGiaPhim.getText());
+                ArrayList<String> theLoai = new ArrayList<>();
+                if (cboHanhDong.isSelected()) {
+                    theLoai.add("Hanh Dong");
+                }
+                if (cboHoatHinh.isSelected()) {
+                    theLoai.add("Hoat Hinh");
+
+                }
+                if (cboHocDuong.isSelected()) {
+                    theLoai.add("Hoc Duong");
+                }
+                if (cboKinhDi.isSelected()) {
+                    theLoai.add("Kinh Di");
+                }
+                if (cboPhieuLuu.isSelected()) {
+                    theLoai.add("Phieu luu");
+                }
+                if (cboTinhCam.isSelected()) {
+                    theLoai.add("Tinh Cam");
+                }
+                movies.setTheLoai(theLoai);
+                movies.setThoiLuong(Integer.parseInt(txtThoiLuong.getText()));
+                movies.setNgPhatHanh(java.sql.Date.valueOf(txtNgay.getText()));
+                System.out.println(""+strHinhAnh);
+                movies.setBackround(String.valueOf(strHinhAnh));
+                int rs = MoviesDAO.update(movies);
+                loadDataToTable();
+                if (rs > 0) {
+                    JOptionPane.showMessageDialog(null, "sua thanh cong");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "sua that bai");
+                }
+                break;
+            }
+        }
+    }
+
+    public void xoaPhim() {
+
+        String ma = txtMa.getText();
+        for (Movies movies : list) {
+            if (ma.equals(movies.getMaPhim())) {
+                int rs = MoviesDAO.delet(movies);
+                loadDataToTable();
+                if (rs > 0) {
+                    JOptionPane.showMessageDialog(null, "xoa thanh cong");
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "xoa that bai");
+                }
+                break;
+            }
+        }
+    }
+
+    public void uploadHinhAnh() {
+        try {
+            JFileChooser jfc = new JFileChooser(".\\src\\Icon");
+            jfc.showOpenDialog(null);
+            File file = jfc.getSelectedFile();
+            if (file != null) {
+               strHinhAnh = file.getName();
+                Image image = ImageIO.read(file);
+                lblPost.setText("");
+                int width = lblPost.getWidth();
+                int heigh = lblPost.getHeight();
+                lblPost.setIcon(new ImageIcon(image.getScaledInstance(width, heigh, 0)));
+                 
+            }
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.toString());
+        }
+
+    }
+
+    public boolean checkTrungMa() {
+        String ma = txtMa.getText();
+        for (Movies movies : list) {
+            if (ma.equals(movies.getMaPhim())) {
+                JOptionPane.showMessageDialog(null, "ma phim da ton tai");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkTrungTen() {
+        String ten = txtTen.getText();
+
+        for (Movies movies : list) {
+            if (ten.equals(movies.getTenPhim())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkTrungTenUpdate() {
+        String ten = txtTen.getText();
+        String ma = txtMa.getText();
+        for (Movies movies : list) {
+            if (ten.equals(movies.getTenPhim()) && !ma.equals(movies.getMaPhim())) {
+                JOptionPane.showMessageDialog(null, "ten phim trung");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean checkMaNull() {
+        if (txtMa.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "hay nhap ma de thuc hien thao tac");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkMaKoTonTai() {
+        String ma = txtMa.getText();
+        for (Movies movies : list) {
+            if (ma.equalsIgnoreCase(movies.getMaPhim())) {
+                return true;
+            }
+        }
+        JOptionPane.showMessageDialog(null, "khong tim thay ma phim\nhay kiem tra ma ban nhap la dung");
+        return false;
+    }
+
+    public boolean checkFrom() {
+        if (txtMa.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ma phim");
+            txtMa.requestFocus();
+            return false;
+        }
+        String ma = txtMa.getText();
+        for (Movies movies : list) {
+            if (ma.equals(movies.getMaPhim())) {
+                JOptionPane.showMessageDialog(null, "ma phim da ton tai");
+                return false;
+            }
+        }
+        if (txtTen.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ten phim");
+            txtTen.requestFocus();
+            return false;
+        }
+        String ten = txtTen.getText();
+        for (Movies movies : list) {
+            if (ten.equals(movies.getTenPhim())) {
+                JOptionPane.showMessageDialog(null, "ten phim da ton tai");
+                return false;
+            }
+        }
+        if (txtDaoDien.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ten dao dien phim");
+            txtDaoDien.requestFocus();
+            return false;
+        }
+        if (txtDaoDien.getText().matches("^(?!\\d+$)[\\p{L}0-9]+$") == false) {
+            JOptionPane.showMessageDialog(null, "ten dao dien phai la chu hoac chu va so");
+            txtDaoDien.requestFocus();
+            return false;
+        }
+        if (cboHanhDong.isSelected() || cboHoatHinh.isSelected() || cboHocDuong.isSelected() || cboKinhDi.isSelected() || cboPhieuLuu.isSelected() || cboTinhCam.isSelected()) {
+
+        } else {
+            JOptionPane.showMessageDialog(null, "chon it nhat mot the loai phim");
+            return false;
+        }
+        if (txtThoiLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap thoi luong phim");
+            txtThoiLuong.requestFocus();
+            return false;
+        }
+        try {
+            double tg = Double.parseDouble(txtThoiLuong.getText());
+            if (tg < 5 || tg > 1200) {
+                JOptionPane.showMessageDialog(null, "thoi luong phim tu 5-->1200 phut");
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "thoi luong phai la so");
+            return false;
+        }
+        if (txtNgay.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ngay ");
+            txtNgay.requestFocus();
+            return false;
+        }
+        try {
+            Date date = java.sql.Date.valueOf(txtNgay.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ngay thang nam chua dung dinh dang(Nam-Thang-ngay)");
+            return false;
+        }
+        if (txtGiaPhim.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap gia phim");
+            txtGiaPhim.requestFocus();
+            return false;
+        }
+
+        try {
+            Double gia = Double.parseDouble(txtGiaPhim.getText());
+            if (gia < 0 || gia > 1500000) {
+                JOptionPane.showMessageDialog(null, "gia ve tu 0vnd den 1500000vnd");
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "gia phai la so");
+            return false;
+        }
+        return true;
+
+    }
+
+    public boolean checkFromupdate() {
+        if (txtMa.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ma phim");
+            txtMa.requestFocus();
+            return false;
+        }
+        if (txtTen.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ten phim");
+            txtTen.requestFocus();
+            return false;
+        }
+
+        if (txtDaoDien.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ten dao dien phim");
+            txtDaoDien.requestFocus();
+            return false;
+        }
+        if (txtDaoDien.getText().matches("^[a-zA-Z ]+$") == false) {
+            JOptionPane.showMessageDialog(null, "ten dao dien phai la chu");
+            txtDaoDien.requestFocus();
+            return false;
+        }
+        if (cboHanhDong.isSelected() || cboHoatHinh.isSelected() || cboHocDuong.isSelected() || cboKinhDi.isSelected() || cboPhieuLuu.isSelected() || cboTinhCam.isSelected()) {
+
+        } else {
+            JOptionPane.showMessageDialog(null, "chon it nhat mot the loai phim");
+            return false;
+        }
+        if (txtThoiLuong.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap thoi luong phim");
+            txtThoiLuong.requestFocus();
+            return false;
+        }
+        try {
+            double tg = Double.parseDouble(txtThoiLuong.getText());
+            if (tg < 5 || tg > 1200) {
+                JOptionPane.showMessageDialog(null, "thoi luong phim tu 5-->1200 phut");
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "thoi luong phai la so");
+            return false;
+        }
+        if (txtNgay.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap ngay ");
+            txtNgay.requestFocus();
+            return false;
+        }
+        try {
+            Date date = java.sql.Date.valueOf(txtNgay.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "ngay thang nam chua dung dinh dang(Nam-Thang-ngay)");
+            return false;
+        }
+        if (txtGiaPhim.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "chua nhap gia phim");
+            txtGiaPhim.requestFocus();
+            return false;
+        }
+
+        try {
+            Double gia = Double.parseDouble(txtGiaPhim.getText());
+            if (gia < 0 || gia > 1500000) {
+                JOptionPane.showMessageDialog(null, "gia ve tu 0vnd den 1500000vnd");
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "gia phai la so");
+            return false;
+        }
+        return true;
+
+    }
+
+    public void Nhanvien() {
+        QuanLyNhanVien nvi = new QuanLyNhanVien();
+//                JOptionPane.showMessageDialog(null, "Login succesfully");
+        nvi.setVisible(true);
+        this.dispose();
+        return;
+
+    }
+
+    public void Ve() {
+        QuanLyVe ve = new QuanLyVe();
+//                JOptionPane.showMessageDialog(null, "Login succesfully");
+        ve.setVisible(true);
+        this.dispose();
+        return;
+
+    }
+
+    public void Phong() {
+        QuanLyPhong phong = new QuanLyPhong();
+//                JOptionPane.showMessageDialog(null, "Login succesfully");
+        phong.setVisible(true);
+        this.dispose();
+        return;
+
+    }
+
+    public void Thietbi() {
+        QuanLyThietBi tbi = new QuanLyThietBi();
+//                JOptionPane.showMessageDialog(null, "Login succesfully");
+        tbi.setVisible(true);
+        this.dispose();
+        return;
+
+    }
+
+    public void Khachhang() {
+        PhanAnhKH khachhang = new PhanAnhKH();
+//                JOptionPane.showMessageDialog(null, "Login succesfully");
+        khachhang.setVisible(true);
+        this.dispose();
+        return;
+
+    }
+
+    public void Phim() {
+        QuanLyPhim phim = new QuanLyPhim();
+//                JOptionPane.showMessageDialog(null, "Login succesfully");
+        phim.setVisible(true);
+        this.dispose();
+        return;
+
     }
 }

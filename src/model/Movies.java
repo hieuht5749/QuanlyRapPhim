@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -11,9 +12,14 @@ import java.util.Date;
  * @author Admin
  */
 public class Movies {
-    private String maPhim, tenPhim, daoDien, giaPhim, theLoai;
+    private String maPhim, tenPhim, daoDien, giaPhim;
+    private ArrayList<String> theLoai;
+    
+    public ArrayList<String> getTheLoai() {
+        return theLoai;
+    }
 
-    public Movies(String maPhim, String tenPhim, String daoDien, String giaPhim, String theLoai, int thoiLuong, Date ngPhatHanh, String backround) {
+    public Movies(String maPhim, String tenPhim, String daoDien, String giaPhim, ArrayList<String> theLoai, int thoiLuong, Date ngPhatHanh, String backround) {
         this.maPhim = maPhim;
         this.tenPhim = tenPhim;
         this.daoDien = daoDien;
@@ -23,6 +29,12 @@ public class Movies {
         this.ngPhatHanh = ngPhatHanh;
         this.backround = backround;
     }
+
+    public void setTheLoai(ArrayList<String> theLoai) {
+        this.theLoai = theLoai;
+    }
+
+
     private int thoiLuong;
     private Date ngPhatHanh;
     private String backround;
@@ -64,13 +76,7 @@ public class Movies {
         this.giaPhim = giaPhim;
     }
 
-    public String getTheLoai() {
-        return theLoai;
-    }
 
-    public void setTheLoai(String theLoai) {
-        this.theLoai = theLoai;
-    }
 
     public int getThoiLuong() {
         return thoiLuong;
@@ -95,5 +101,7 @@ public class Movies {
     public void setBackround(String backround) {
         this.backround = backround;
     }
+
+
     
 }
